@@ -15,7 +15,8 @@ setup(name='TotalSegmentator',
             'psutil',
             # Any version <2.1.0 because of this issue: 
             # https://github.com/SimpleITK/SimpleITK/issues/1433
-            'SimpleITK==2.0.2',
+            # AS: skip it, just use dcm2niix for conversion
+            #'SimpleITK==2.0.2',
             'nibabel>=2.3.0',
             'tqdm>=4.45.0',
             'p_tqdm',

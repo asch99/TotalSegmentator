@@ -287,16 +287,21 @@ def nnUNet_predict_image(file_in, file_out, task_id, model="3d_fullres", folds=N
             new_header.set_data_dtype(np.uint8)
 
             st = time.time()
-            if multilabel_image:
-                file_out.parent.mkdir(exist_ok=True, parents=True)
-            else:
-                file_out.mkdir(exist_ok=True, parents=True)
+            # AS: not needed, also for multilabel the folder must be created because of preview anyway
+            #if multilabel_image:
+            #    file_out.parent.mkdir(exist_ok=True, parents=True)
+            #else:
+            #    file_out.mkdir(exist_ok=True, parents=True)
+            file_out.mkdir(exist_ok=True, parents=True)
             if multilabel_image:
                 # nib.save(nib.Nifti1Image(img_data, img_pred.affine, new_header), file_out)  # recreate nifti image to ensure uint8 dtype
                 img_out = nib.Nifti1Image(img_data, img_pred.affine, new_header)
-                save_multilabel_nifti(img_out, file_out, class_map[task_name])
+                output_path = str(file_out / "totalseg.nii.gz")
+                #save_multilabel_nifti(img_out, file_out, class_map[task_name])
+                save_multilabel_nifti(img_out, output_path, class_map[task_name])
                 if nora_tag != "None":
-                    subprocess.call(f"/opt/nora/src/node/nora -p {nora_tag} --add {file_out} --addtag atlas", shell=True)
+                    #subprocess.call(f"/opt/nora/src/node/nora -p {nora_tag} --add {file_out} --addtag atlas", shell=True)
+                    subprocess.call(f"/opt/nora/src/node/nora -p {nora_tag} --add {output_path} --addtag atlas", shell=True)
             else:  # save each class as a separate binary image
                 file_out.mkdir(exist_ok=True, parents=True)
                 # Code for single threaded execution  (runtime:24s)
