@@ -296,7 +296,10 @@ def nnUNet_predict_image(file_in, file_out, task_id, model="3d_fullres", folds=N
             if multilabel_image:
                 # nib.save(nib.Nifti1Image(img_data, img_pred.affine, new_header), file_out)  # recreate nifti image to ensure uint8 dtype
                 img_out = nib.Nifti1Image(img_data, img_pred.affine, new_header)
-                output_path = str(file_out / "totalseg.nii.gz")
+                if task_id == 252: # vertebrae:
+                    output_path = str(file_out / "vertebrae.nii.gz")
+                else:
+                    output_path = str(file_out / "totalseg.nii.gz")
                 #save_multilabel_nifti(img_out, file_out, class_map[task_name])
                 save_multilabel_nifti(img_out, output_path, class_map[task_name])
                 if nora_tag != "None":
