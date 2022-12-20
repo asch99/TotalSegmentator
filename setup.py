@@ -26,7 +26,10 @@ setup(name='TotalSegmentator',
             # This does not work if want to upload to pypi
             # 'nnunet @ git+https://github.com/wasserth/nnUNet_cust@working_2022_03_18#egg=nnUNet'
             'nnunet-customized==1.1',
-            'requests'
+            'requests',
+            # for conversion of dicom to nii.gz
+            'dcm2niix',
+            'nipype'
         ],
         zip_safe=False,
         classifiers=[
@@ -37,6 +40,6 @@ setup(name='TotalSegmentator',
             'Operating System :: MacOS'
         ],
         scripts=[
-            'bin/TotalSegmentator', 'bin/totalseg_combine_masks'
+            'bin/TotalSegmentator', 'bin/totalseg_combine_masks', 'bin/TotalSegmentator_dicom'
         ]
     )
